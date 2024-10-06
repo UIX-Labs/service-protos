@@ -1,0 +1,30 @@
+{
+  "name": "service-protos",
+  "version": "1.0.0",
+  "description": "Proto Files for  all services",
+  "files": [
+    "dist"
+  ],
+  "types": "dist/index.d.ts",  
+  "main": "",
+  "scripts": {
+    "build": "rimraf dist && mkdirp dist && chmod +x ./build.sh && ./build.sh && tsc && cp -r src/proto ./dist/src",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blazer2019/service-protos.git"
+  },
+  "author": "Blazer",
+  "license": "ISC",
+  "dependencies": {
+    "@grpc/grpc-js": "^1.9.1",
+    "protobufjs": "^7.2.5"
+  },
+  "devDependencies": {
+    "mkdirp": "^3.0.1",
+    "rimraf": "^5.0.1",
+    "ts-proto": "^1.156.7",
+    "typescript": "^5.2.2"
+  }
+}
