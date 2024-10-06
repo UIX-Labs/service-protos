@@ -17,7 +17,6 @@ import {
   type ServiceError,
   type UntypedServiceImplementation,
 } from "@grpc/grpc-js";
-import Long from "long";
 import _m0 from "protobufjs/minimal";
 import { Struct } from "../../google/protobuf/struct";
 
@@ -41,9 +40,7 @@ export interface CreateUserRequest {
 }
 
 export interface CreateUserResponse {
-  id: number;
-  phone: string;
-  userName: string;
+  data: ServiceResponse | undefined;
 }
 
 function createBaseStatus(): Status {
@@ -301,19 +298,13 @@ export const CreateUserRequest = {
 };
 
 function createBaseCreateUserResponse(): CreateUserResponse {
-  return { id: 0, phone: "", userName: "" };
+  return { data: undefined };
 }
 
 export const CreateUserResponse = {
   encode(message: CreateUserResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.id !== 0) {
-      writer.uint32(8).int64(message.id);
-    }
-    if (message.phone !== "") {
-      writer.uint32(18).string(message.phone);
-    }
-    if (message.userName !== "") {
-      writer.uint32(26).string(message.userName);
+    if (message.data !== undefined) {
+      ServiceResponse.encode(message.data, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
@@ -326,25 +317,11 @@ export const CreateUserResponse = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          if (tag !== 8) {
+          if (tag !== 10) {
             break;
           }
 
-          message.id = longToNumber(reader.int64() as Long);
-          continue;
-        case 2:
-          if (tag !== 18) {
-            break;
-          }
-
-          message.phone = reader.string();
-          continue;
-        case 3:
-          if (tag !== 26) {
-            break;
-          }
-
-          message.userName = reader.string();
+          message.data = ServiceResponse.decode(reader, reader.uint32());
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -356,23 +333,13 @@ export const CreateUserResponse = {
   },
 
   fromJSON(object: any): CreateUserResponse {
-    return {
-      id: isSet(object.id) ? globalThis.Number(object.id) : 0,
-      phone: isSet(object.phone) ? globalThis.String(object.phone) : "",
-      userName: isSet(object.userName) ? globalThis.String(object.userName) : "",
-    };
+    return { data: isSet(object.data) ? ServiceResponse.fromJSON(object.data) : undefined };
   },
 
   toJSON(message: CreateUserResponse): unknown {
     const obj: any = {};
-    if (message.id !== 0) {
-      obj.id = Math.round(message.id);
-    }
-    if (message.phone !== "") {
-      obj.phone = message.phone;
-    }
-    if (message.userName !== "") {
-      obj.userName = message.userName;
+    if (message.data !== undefined) {
+      obj.data = ServiceResponse.toJSON(message.data);
     }
     return obj;
   },
@@ -382,9 +349,9 @@ export const CreateUserResponse = {
   },
   fromPartial<I extends Exact<DeepPartial<CreateUserResponse>, I>>(object: I): CreateUserResponse {
     const message = createBaseCreateUserResponse();
-    message.id = object.id ?? 0;
-    message.phone = object.phone ?? "";
-    message.userName = object.userName ?? "";
+    message.data = (object.data !== undefined && object.data !== null)
+      ? ServiceResponse.fromPartial(object.data)
+      : undefined;
     return message;
   },
 };
@@ -441,21 +408,6 @@ export type DeepPartial<T> = T extends Builtin ? T
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 export type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
-
-function longToNumber(long: Long): number {
-  if (long.gt(globalThis.Number.MAX_SAFE_INTEGER)) {
-    throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
-  }
-  if (long.lt(globalThis.Number.MIN_SAFE_INTEGER)) {
-    throw new globalThis.Error("Value is smaller than Number.MIN_SAFE_INTEGER");
-  }
-  return long.toNumber();
-}
-
-if (_m0.util.Long !== Long) {
-  _m0.util.Long = Long as any;
-  _m0.configure();
-}
 
 function isObject(value: any): boolean {
   return typeof value === "object" && value !== null;

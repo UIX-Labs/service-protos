@@ -22,9 +22,7 @@ message CreateUserRequest {
 }
   
 message CreateUserResponse {
-    int64 id =1;
-    string phone = 2;
-    string user_name = 3;
+     ServiceResponse data = 1;
 }
 
 service UserService {
