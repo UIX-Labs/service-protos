@@ -2,7 +2,7 @@
 // versions:
 //   protoc-gen-ts_proto  v1.181.2
 //   protoc               v5.28.0
-// source: proto/user-service/user.proto
+// source: user-service/user.proto
 
 /* eslint-disable */
 import {
@@ -18,7 +18,7 @@ import {
   type UntypedServiceImplementation,
 } from "@grpc/grpc-js";
 import _m0 from "protobufjs/minimal";
-import { Struct } from "../../google/protobuf/struct";
+import { Struct } from "../google/protobuf/struct";
 
 export const protobufPackage = "user";
 
